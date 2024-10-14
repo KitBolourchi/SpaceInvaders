@@ -8,12 +8,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.*
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 import spaceinvaders.composeapp.generated.resources.Res
 import spaceinvaders.composeapp.generated.resources.Space_Invaders_Logo
+import spaceinvaders.composeapp.generated.resources.Spaceship
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -37,6 +39,30 @@ fun App() {
                     }
                 }
             }
+        } else {
+            Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Bottom) {
+                Image(
+                    painterResource(Res.drawable.Spaceship),
+                    null,
+                    modifier = Modifier.focusable().onKeyEvent {
+                        if(
+                            it.type == KeyEventType.KeyUp &&
+                            it.key == Key.S
+                        ) {
+                            doSomething()
+                            true
+                        } else {
+                            false
+                        }
+                    }
+
+                )
+            }
         }
     }
+}
+
+fun doSomething() {
+
+    println("left key pressed")
 }
