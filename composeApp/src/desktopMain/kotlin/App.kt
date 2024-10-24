@@ -7,6 +7,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -40,29 +42,36 @@ fun App() {
                 }
             }
         } else {
+            val focusRequester = remember { FocusRequester() }
+
             Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Bottom) {
                 Image(
                     painterResource(Res.drawable.Spaceship),
                     null,
-                    modifier = Modifier.focusable().onKeyEvent {
+                    modifier = Modifier.focusRequester(focusRequester).onKeyEvent {
                         if(
                             it.type == KeyEventType.KeyUp &&
-                            it.key == Key.S
+                            it.key == Key.DirectionLeft
                         ) {
-                            doSomething()
+                            doSomethingLeft()
                             true
                         } else {
                             false
                         }
-                    }
-
+                    }.focusable(true)
                 )
+            }
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
             }
         }
     }
 }
 
-fun doSomething() {
-
+fun doSomethingLeft() {
     println("left key pressed")
+}
+
+fun doSomethingRight() {
+    println("right key pressed")
 }
