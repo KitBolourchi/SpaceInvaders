@@ -25,9 +25,9 @@ import spaceinvaders.composeapp.generated.resources.Spaceship
 fun App() {
     MaterialTheme {
         Box(Modifier.fillMaxSize().background(Color.Black))
-        var showContent by remember { mutableStateOf(true) }
-        if (showContent) {
-            AnimatedVisibility(showContent) {
+        var mainMenuPage by remember { mutableStateOf(true) }
+        if (mainMenuPage) {
+            AnimatedVisibility(mainMenuPage) {
                 Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                     Image(
                         painterResource(Res.drawable.Space_Invaders_Logo),
@@ -35,7 +35,7 @@ fun App() {
                     )
 
                     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                        Button(onClick = { showContent = !showContent }) {
+                        Button(onClick = { mainMenuPage = false }) {
                             Text("PLAY")
                         }
                     }
@@ -48,15 +48,23 @@ fun App() {
                 Image(
                     painterResource(Res.drawable.Spaceship),
                     null,
-                    modifier = Modifier.focusRequester(focusRequester).onKeyEvent {
-                        if(
-                            it.type == KeyEventType.KeyUp &&
-                            it.key == Key.DirectionLeft
-                        ) {
-                            doSomethingLeft()
-                            true
+                    Modifier.focusRequester(focusRequester).onKeyEvent { event: KeyEvent ->
+                        if (event.type == KeyEventType.KeyDown) {
+                            when(event.key) {
+                                Key.DirectionLeft -> {
+                                    doSomethingLeft()
+                                    true
+                                }
+                                Key.DirectionRight -> {
+                                    doSomethingRight()
+                                    true
+                                }
+                                else -> {
+                                    true
+                                }
+                            }
                         } else {
-                            false
+                            true
                         }
                     }.focusable(true)
                 )
