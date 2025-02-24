@@ -1,6 +1,7 @@
-package domain
+package models
 
 enum class ShipMovement {
     Left,
-    Right
+    Right,
+    None
 }

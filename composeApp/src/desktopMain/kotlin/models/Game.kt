@@ -1,4 +1,4 @@
-package domain
+package models
 
 data class Game(
     val status: GameStatus = GameStatus.Idle,
@@ -10,3 +10,4 @@ data class GameSettings(
     val alienSpeed: Float = 10f,
     val alienLaserSpeed: Float = 15f
 )
+

@@ -1,4 +1,4 @@
-package domain
+package models
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.ui.graphics.Color
@@ -11,3 +11,4 @@ data class Alien(
     override val colour: Color = Color.White,
     val lives: Int = 1
 ): Target
+

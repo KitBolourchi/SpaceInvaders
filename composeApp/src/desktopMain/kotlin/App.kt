@@ -9,14 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.input.key.*
+import androidx.compose.ui.unit.dp
+import models.ShipMovement
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.jetbrains.skia.Bitmap
 
 import spaceinvaders.composeapp.generated.resources.Res
 import spaceinvaders.composeapp.generated.resources.Space_Invaders_Logo
@@ -26,6 +26,14 @@ import spaceinvaders.composeapp.generated.resources.playership
 @Composable
 @Preview
 fun App() {
+    var shipMovement by remember { mutableStateOf(ShipMovement.None) }
+
+    val scene = remember { Scene() }
+
+    val assets = listOf(
+        imageResource(Res.drawable.playership)
+    )
+
     MaterialTheme {
         Box(Modifier.fillMaxSize().background(Color.Black))
         var mainMenuPage by remember { mutableStateOf(true) }
@@ -45,44 +53,12 @@ fun App() {
                 }
             }
         } else {
-            val focusRequester = remember { FocusRequester() }
-
-            Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.Bottom) {
-                Image(
-                    painterResource(Res.drawable.playership),
-                    null,
-                    Modifier.focusRequester(focusRequester).onKeyEvent { event: KeyEvent ->
-                        if (event.type == KeyEventType.KeyDown) {
-                            when(event.key) {
-                                Key.DirectionLeft -> {
-                                    doSomethingLeft()
-                                    true
-                                }
-                                Key.DirectionRight -> {
-                                    doSomethingRight()
-                                    true
-                                }
-                                else -> {
-                                    true
-                                }
-                            }
-                        } else {
-                            true
-                        }
-                    }.focusable(true)
-                )
+            scene.setupScene()
+            val frameState = StepFrame {
+                scene.update()
             }
-            LaunchedEffect(Unit) {
-                focusRequester.requestFocus()
-            }
+            scene.render(frameState, assets)
         }
     }
 }
 
-fun doSomethingLeft() {
-    println("left key pressed")
-}
-
-fun doSomethingRight() {
-    println("right key pressed")
-}
