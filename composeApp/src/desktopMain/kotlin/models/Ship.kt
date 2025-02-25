@@ -21,7 +21,16 @@ fun DrawScope.drawSpaceShip(spaceShip: ImageBitmap, ship: Ship) {
     val centerY = canvasHeight / 2
     ship.y = canvasHeight - 80f
 
-    val bitmapX = centerX - spaceShip.width.toFloat() / 2
+    val bitmapX = ship.x - spaceShip.width.toFloat() / 2
     val bitmapY = ship.y - spaceShip.height.toFloat() / 2
-    drawImage(spaceShip, Offset(bitmapX, bitmapY))
+
+    if (ship.x < canvasWidth - 50 && ship.x > canvasWidth - canvasWidth + 50 ) {
+        drawImage(spaceShip, Offset(bitmapX, bitmapY))
+    } else if (ship.x >= canvasWidth - 50) {
+        ship.x -= 50
+        drawImage(spaceShip, Offset(bitmapX - 50, bitmapY))
+    } else if (ship.x <= canvasWidth - canvasWidth + 50) {
+        ship.x += 50
+        drawImage(spaceShip, Offset(bitmapX + 50, bitmapY))
+    }
 }

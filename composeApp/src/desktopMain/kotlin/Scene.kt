@@ -44,12 +44,10 @@ class Scene {
                         if (event.type == KeyEventType.KeyDown) {
                             when(event.key) {
                                 Key.DirectionLeft -> {
-                                    println("Left")
                                     spaceShip.x -= 50
                                     true
                                 }
                                 Key.DirectionRight -> {
-                                    println("Right")
                                     spaceShip.x += 50
                                     true
                                 }
