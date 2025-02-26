@@ -1,5 +1,6 @@
 package models
 
+import Scene
 import androidx.compose.animation.core.Animatable
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -12,7 +13,11 @@ data class Alien(
     val movementSpeed: Float = 0f,
     val colour: Color = Color.White,
     val lives: Int = 1
-)
+): SceneEntity() {
+    override fun update(scene: Scene) {
+
+    }
+}
 
 
 
